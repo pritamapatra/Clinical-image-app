@@ -1,0 +1,16 @@
+# Ignore Python virtual environments
+venvtf/
+venv311/
+__pycache__/
+*.pyc
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore OS junk
+.DS_Store
+Thumbs.db
+
+# Large files (if you want to skip datasets, models, etc.)
+*.h5
+*.keras
