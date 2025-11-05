@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
-from schemas.patient import PatientInfo
-from utils.image_utils import detect_mime_type, extract_dicom_metadata, is_valid_medical_image
+from app.schemas.patient import PatientInfo
+from app.utils.image_utils import detect_mime_type, extract_dicom_metadata, is_valid_medical_image
 import requests
 import os
 
