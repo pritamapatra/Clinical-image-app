@@ -1,5 +1,26 @@
 import React from "react";
-import { Table, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material";
+import { Table, TableHead, TableRow, TableCell, TableBody, Paper, Button } from "@mui/material";
+
+const downloadPdfReport = async (doctorId, index) => {
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/brain-tumor/report/pdf?doctor_id=${doctorId}&index=${index}`,
+      { method: "GET" }
+    );
+    if (!response.ok) throw new Error("Failed to download PDF");
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `brain_tumor_report_${doctorId}_${index}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (e) {
+    alert("Error downloading PDF: " + e.message);
+  }
+};
 
 export default function Dashboard({ entries }) {
   if (entries.length === 0) return null;
@@ -14,6 +35,7 @@ export default function Dashboard({ entries }) {
             <TableCell>Result</TableCell>
             <TableCell>Confidence</TableCell>
             <TableCell>Preview</TableCell>
+            <TableCell>Report</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -24,8 +46,17 @@ export default function Dashboard({ entries }) {
               <TableCell>{entry.prediction?.result}</TableCell>
               <TableCell>{entry.prediction?.confidence}</TableCell>
               <TableCell>
-                {/* Use preview if you have a static file hosting backend, else skip for now */}
                 {entry.filename}
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="small"
+                  onClick={() => downloadPdfReport(entry.patient.doctor_id, idx)}
+                >
+                  Download PDF
+                </Button>
               </TableCell>
             </TableRow>
           ))}

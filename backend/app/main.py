@@ -15,9 +15,9 @@ app.add_middleware(
 
 
 # Import routers (next step will link these routes)
-from app.routes import brain_tumor, general_image,brain_hemorrhage
+from app.routes import brain_tumor, general_image
 
 app.include_router(brain_tumor.router, prefix="/api/brain-tumor")
 app.include_router(general_image.router, prefix="/api/general-analysis")
-app.include_router(brain_hemorrhage.router, prefix="/brain-hemorrhage")
+
 
